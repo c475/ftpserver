@@ -30,7 +30,6 @@ class FTPRequestHandler(object):
             self.clientsocket,
             self.user,
             self.sys_info,
-            self.sys_config,
             self.server_state,
             self.data_channel
         )
