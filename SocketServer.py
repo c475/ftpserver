@@ -85,7 +85,7 @@ class SocketServer(object):
                     # remove he message queue
                     del self.handlers[s]
 
-    def handle_writes(self, write):
+    def handle_write(self, write):
         for s in write:
             try:
                 # message = self.handlers.queue.get_nowait()
