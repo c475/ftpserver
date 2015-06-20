@@ -2,6 +2,8 @@ import sys
 import os
 import subprocess
 
+from responses import *
+
 class FTPCommander(object):
 
     def __init__(self, request, user, sys_info, sys_state, data_channel):

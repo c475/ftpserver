@@ -1,6 +1,12 @@
 import StateHandlers
 from FTPCommander import FTPCommander
 
+from responses import (
+    SERVICE_READY_NEW_USER,
+    SYNTAX_ERROR_COMMAND,
+    SYNTAX_ERROR_PARAMS
+)
+
 
 class FTPRequestHandler(object):
 
