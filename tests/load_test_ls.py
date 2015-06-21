@@ -33,7 +33,6 @@ def make_request(sock, host, port):
         data_channel = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         data_channel.bind(("127.0.0.1", pp))
 
-
         sock.send("PORT 127,0,0,1," + str(p1) + "," + str(p2))
 
         data_channel.listen(5)

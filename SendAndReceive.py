@@ -3,10 +3,6 @@ import threading
 
 class SendAndReceive(object):
 
-    """
-    ALL SOCKET I/O HAPPENS HERE
-    """
-
     def __init__(self, clientsocket, data_channel, config):
         self.clientsocket = clientsocket
         self.data_channel = data_channel
