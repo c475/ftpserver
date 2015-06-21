@@ -56,7 +56,7 @@ class FTPRequestHandler(object):
         If response, add it
         """
 
-        response = self.commander.receive()
+        response = self.transport.receive()
 
         if not response:
             return False
