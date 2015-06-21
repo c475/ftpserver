@@ -40,6 +40,10 @@ class SocketServer(object):
                 self.erroring
             )
 
+            print("read: " + str(read))
+            print("write: " + str(write))
+            print("error: " + str(error))
+
             self.handle_reads(read)
             self.handle_write(write)
             self.handle_error(error)
