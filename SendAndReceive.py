@@ -3,6 +3,10 @@ import threading
 
 class SendAndReceive(object):
 
+    """
+    ALL SOCKET I/O HAPPENS HERE
+    """
+
     def __init__(self, clientsocket, data_channel, config):
         self.clientsocket = clientsocket
         self.data_channel = data_channel
@@ -14,11 +18,6 @@ class SendAndReceive(object):
         self.counter = 0
 
     def receive(self, split=True):
-        """
-        Does a .recv().
-        Split the command and params into a list by default.
-        Otherwise, return a command string.
-        """
         if split is True:
             self.previous_message = self.clientsocket.recv(self.config.buffersize)
 
@@ -58,4 +57,3 @@ class SendAndReceive(object):
         )
 
         t.start()
-

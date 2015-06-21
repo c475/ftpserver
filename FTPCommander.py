@@ -86,10 +86,11 @@ class FTPCommander(object):
         """
         Like ls command. Get a list of files in working directory.
         """
-        # maybe it should open the connection here...
 
         def transfer_callback(clientsock, datasock):
             clientsock.send(FILE_STATUS_OK)
+
+            datasock.connect(self.data_channel.address)
 
             datasock.send(subprocess.check_output([
                 "ls",
@@ -98,6 +99,11 @@ class FTPCommander(object):
             ]))
 
             clientsock.send(CLOSING_DATA_CONNECTION)
+
+            datasock.close()
+
+            self.data_channel.socket = None
+            self.data_channel.address = None
 
         return transfer_callback
 
@@ -154,7 +160,6 @@ class FTPCommander(object):
             socket.AF_INET,
             socket.SOCK_STREAM
         )
-
         
         return COMMAND_NOT_IMPLEMENTED
 
@@ -165,6 +170,8 @@ class FTPCommander(object):
         """
         Establish connection to client-supplied address for data transfer.
         """
+        # handle case where socket is already connected...
+
         self.data_channel.socket = socket.socket(
             socket.AF_INET,
             socket.SOCK_STREAM
@@ -174,8 +181,7 @@ class FTPCommander(object):
         host = ".".join(addr[:4])
         port = (int(addr[4]) * 256) + int(addr[5])
 
-        self.data_channel.socket.connect((host, port))
-        self.data_channel.connected = True
+        self.data_channel.address = (host, port)
 
         return COMMAND_OK
 

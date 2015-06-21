@@ -46,12 +46,11 @@ class DataChannel(object):
         self.sys_config = sys_config
         self.socket = None
         self.connected = False
+        self.address = None
 
     def send(self, content):
-        # BAD!!!
+        # BAD!!! maybe
         self.socket.send(content)
-        self.socket.close()
-        self.socket = None
 
     def receive(self):
         # response = self.channel.recv(self.sys_config.buffersize)

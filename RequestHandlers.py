@@ -90,5 +90,9 @@ class FTPRequestHandler(object):
         else:
             self.transport.send(SYNTAX_ERROR_COMMAND)
 
+        # just returning true for now.
+        # maybe think about passing sockets back to the server for selecting
+        return True
+
     def finish(self):
         pass

@@ -93,7 +93,8 @@ class SocketServer(object):
             try:
                 self.handlers[s].handle_write()
             # no messages are waiting so stop checking
-            except Queue.Empty:
+            # kinda ignoring a problem here with high loads/broken sockets
+            except:
                 # remove from writable until we get a read from it...
                 self.writable.remove(s)
 
