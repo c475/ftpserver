@@ -74,7 +74,7 @@ def make_request(sock, host, port):
 
 threads = []
 
-for i in xrange(10):
+for i in xrange(1):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     threads.append(
