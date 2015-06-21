@@ -170,7 +170,7 @@ class FTPCommander(object):
             socket.SOCK_STREAM
         )
 
-        addr = params[0].split(",")
+        addr = params[0][0].split(",")
         host = ".".join(addr[:4])
         port = (int(addr[4]) * 256) + int(addr[5])
 
