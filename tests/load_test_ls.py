@@ -59,7 +59,7 @@ def make_request(sock, host, port):
         print("accepted connection from: " + str(addr))
 
         # receive LIST results
-        li = newsock.recv(2048)
+        li = newsock.recv(4040)
 
         # CLOSING CONNECTION
         d = sock.recv(1024)

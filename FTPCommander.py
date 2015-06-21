@@ -92,7 +92,7 @@ class FTPCommander(object):
 
             datasock.connect(self.data_channel.address)
 
-            datasock.send(subprocess.check_output([
+            datasock.sendall(subprocess.check_output([
                 "ls",
                 "-aChl",
                 self.sys_state.working_directory
