@@ -67,6 +67,9 @@ class SocketServer(object):
                     Queue.Queue()
                 )
 
+                # initialize the FTP session (SERVICE_READY_NEW_USER)
+                self.handlers[clientsocket].initialize_ftp()
+
             # it's an open client socket...
             else:
                 print("handling read for socket: " + str(s))

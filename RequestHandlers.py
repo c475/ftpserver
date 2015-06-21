@@ -47,7 +47,9 @@ class FTPRequestHandler(object):
             self.sys_config
         )
 
-        self.queue.put(SERVICE_READY_NEW_USER)
+
+    def initialize_ftp(self):
+        self.transport.send(SERVICE_READY_NEW_USER)
 
     def handle_read(self):
         """
