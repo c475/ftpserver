@@ -197,6 +197,9 @@ class FTPCommander(object):
         )
 
     def QUIT(self, *params, **kwargs):
+        """
+        Todo: much of this can be handled from the socket server i think
+        """
         return COMMAND_NOT_IMPLEMENTED
 
     def REIN(self, *params, **kwargs):

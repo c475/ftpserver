@@ -37,6 +37,7 @@ def make_request(sock, host, port):
 
         data_channel.listen(5)
         newsock, addr = data_channel.accept()
+        print("accepted connection from: " + str(addr))
 
         d = sock.recv(1024)
 
