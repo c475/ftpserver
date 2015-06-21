@@ -1,9 +1,11 @@
 import datetime
+import threading
 
 class SendAndReceive(object):
 
-    def __init__(self, clientsocket, config):
+    def __init__(self, clientsocket, data_channel, config):
         self.clientsocket = clientsocket
+        self.data_channel = data_channel
         self.config = config
 
         self.session_history = {}
@@ -48,3 +50,12 @@ class SendAndReceive(object):
             # socket is no longer listening
             print("Connection closed or something? Let's see")
             return False
+
+    def pipe(self, callback):
+        t = threading.Thread(
+            target=callback,
+            args=(self.clientsocket, self.data_channel)
+        )
+
+        t.start()
+

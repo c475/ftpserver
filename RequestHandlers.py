@@ -9,6 +9,8 @@ from responses import (
 
 from SendAndReceive import SendAndReceive
 
+from types import FunctionType
+
 
 class FTPRequestHandler(object):
 
@@ -72,12 +74,18 @@ class FTPRequestHandler(object):
         message = self.queue.get_nowait()
 
         try:
-            command = message[0].upper()
+            command = message.pop(0).upper()
         except IndexError:
             self.transport.send(SYNTAX_ERROR_COMMAND)
 
         if hasattr(self.commander, command):
-            self.transport.send(getattr(self.commander, command)(message[1:]))
+            response = getattr(self.commander, command)(message)
+
+            if type(response) == str:
+                self.transport.send(response)
+            elif type(response) == FunctionType:
+                self.transport.pipe(response)
+
         else:
             self.transport.send(SYNTAX_ERROR_COMMAND)
 

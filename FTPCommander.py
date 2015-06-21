@@ -1,8 +1,10 @@
 import sys
 import os
 import subprocess
+import socket
 
 from responses import *
+
 
 class FTPCommander(object):
 
@@ -85,15 +87,19 @@ class FTPCommander(object):
         Like ls command. Get a list of files in working directory.
         """
         # maybe it should open the connection here...
-        self.send(FILE_STATUS_OK)
 
-        self.data_channel.send(subprocess.check_output([
-            "ls",
-            "-aChl",
-            self.sys_state.working_directory
-        ]))
+        def transfer_callback(clientsock, datasock):
+            clientsock.send(FILE_STATUS_OK)
 
-        self.send(CLOSING_DATA_CONNECTION)
+            datasock.send(subprocess.check_output([
+                "ls",
+                "-aChl",
+                self.sys_state.working_directory
+            ]))
+
+            clientsock.send(CLOSING_DATA_CONNECTION)
+
+        return transfer_callback
 
     def LPRT(self, *params, **kwargs):
         return COMMAND_NOT_IMPLEMENTED
@@ -164,7 +170,7 @@ class FTPCommander(object):
             socket.SOCK_STREAM
         )
 
-        addr = self.last_response[1].split(",")
+        addr = params[0].split(",")
         host = ".".join(addr[:4])
         port = (int(addr[4]) * 256) + int(addr[5])
 
