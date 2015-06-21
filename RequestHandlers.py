@@ -46,6 +46,7 @@ class FTPRequestHandler(object):
 
         self.transport = SendAndReceive(
             self.clientsocket,
+            self.data_channel,
             self.sys_config
         )
 
