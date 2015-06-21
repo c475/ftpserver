@@ -49,7 +49,7 @@ class SendAndReceive(object):
     def pipe(self, callback):
         t = threading.Thread(
             target=callback,
-            args=(self.clientsocket, self.data_channel)
+            args=(self.clientsocket, self.data_channel.socket)
         )
 
         t.start()
