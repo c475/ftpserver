@@ -60,11 +60,15 @@ def make_request(sock, host, port):
 
         # receive LIST results
         li = newsock.recv(4040)
+        print(li)
 
         # CLOSING CONNECTION
         d = sock.recv(1024)
+        print(d)
 
         newsock.close()
+
+        print("CLOSED CONNECTION!!!!!!!")
 
     sock.close()
 
