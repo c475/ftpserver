@@ -7,6 +7,8 @@ from responses import (
     SYNTAX_ERROR_PARAMS
 )
 
+from SendAndReceive import SendAndReceive
+
 
 class FTPRequestHandler(object):
 
@@ -40,6 +42,11 @@ class FTPRequestHandler(object):
             self.data_channel
         )
 
+        self.transport = SendAndReceive(
+            self.clientsocket,
+            self.sys_config
+        )
+
         self.queue.put(SERVICE_READY_NEW_USER)
 
     def handle_read(self):
@@ -65,12 +72,12 @@ class FTPRequestHandler(object):
         try:
             command = message[0].upper()
         except IndexError:
-            self.commander.send(SYNTAX_ERROR_COMMAND)
+            self.transport.send(SYNTAX_ERROR_COMMAND)
 
         if hasattr(self.commander, command):
-            self.queue.put(getattr(self.commander, command)(message[1:]))
+            self.transport.send(getattr(self.commander, command)(message[1:]))
         else:
-            self.queue.put(SYNTAX_ERROR_COMMAND)
+            self.transport.send(SYNTAX_ERROR_COMMAND)
 
     def finish(self):
         pass

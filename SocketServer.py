@@ -51,6 +51,7 @@ class SocketServer(object):
             # someone is making a connection
             if s is self.serversocket:
                 clientsocket, address = s.accept()
+                print("accepted new connection from: " + str(address))
                 clientsocket.setblocking(0)
 
                 # add to list of writable sockets
@@ -64,16 +65,19 @@ class SocketServer(object):
 
             # it's an open client socket...
             else:
+                print("handling read for socket: " + str(s))
                 # handle request
                 success = self.handlers[s].handle_read()
 
                 if success:
                     # add it to writable sockets for response if it isn't in there
                     if s not in self.writable:
+                        print("adding it to writable.")
                         self.writable.append(s)
 
                 # we're talking to a closed socket, or something went very wrong
                 else:
+                    print("closing socket: " + str(s))
                     # remove from writable sockets
                     if s in self.writable:
                         self.writable.remove(s)
@@ -88,17 +92,16 @@ class SocketServer(object):
     def handle_write(self, write):
         for s in write:
             try:
+                print("handling write event for socket: " + str(s))
                 # message = self.handlers.queue.get_nowait()
                 self.handlers[s].handle_write()
             # no messages are waiting so stop checking
             except Queue.Empty:
-                # no messages waiting
-                # i dont think its the right thing to do to remove it but whatever
-                self.readable.remove(s)
-            else:
-                s.send(message)
+                # remove from writable until we get a read from it...
+                self.writable.remove(s)
 
     def handle_error(self, error):
         for s in error:
+            print("socket is in error: " + str(s))
             # stop listening to this socket
             pass
