@@ -1,7 +1,7 @@
 import sys
 import optparse
 
-from SocketServer import SocketServer
+from Server import Server
 from RequestHandlers import FTPRequestHandler
 
 
@@ -12,8 +12,7 @@ if __name__ == "__main__":
     except:
         sys.exit()
 
-    server = SocketServer(("127.0.0.1", port), FTPRequestHandler)
-    server.serve_forever()
+    server = Server(("127.0.0.1", port), FTPRequestHandler)
 
     try:
         server.serve_forever()

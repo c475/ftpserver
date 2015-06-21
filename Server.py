@@ -1,13 +1,10 @@
 import socket
 import select
 import Queue
+import types
 
 
-class SocketServer(object):
-    """
-    Spawns client sockets to handle new requests to ftp server.
-    Also, implement access controls.
-    """
+class Server(object):
 
     def __init__(self, address, request_handler):
         self.host, self.port = address
@@ -91,9 +88,14 @@ class SocketServer(object):
     def handle_write(self, write):
         for s in write:
             try:
-                self.handlers[s].handle_write()
+                resp = self.handlers[s].handle_write()
+
+                # think about passing socket objects back to server
+                if isinstance(resp, socket.socket):
+                    pass
+
             # no messages are waiting so stop checking
-            # kinda ignoring a problem here with high loads/broken sockets
+            # kinda ignoring a problem here with very high loads/broken sockets
             except:
                 # remove from writable until we get a read from it...
                 self.writable.remove(s)
@@ -103,3 +105,20 @@ class SocketServer(object):
             print("socket is in error: " + str(s))
             # stop listening to this socket
             pass
+
+    def shutdown(self):
+        for s in self.erroring:
+            self.erroring.remove(s)
+            s.close()
+
+        for s in self.writable:
+            self.writable.remove(s)
+            s.close()
+
+        for s in self.readable:
+            if s is not self.serversocket:
+                self.readable.remove(s)
+                s.close()
+
+        self.readable.remove(self.serversocket)
+        self.serversocket.close()
