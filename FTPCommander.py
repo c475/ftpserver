@@ -53,7 +53,7 @@ class FTPCommander(object):
         """
         Like cd command. Change the current working directory.
         """
-        pathname = self.last_response[1]
+        pathname = params[0][0]
 
         if os.path.exists(pathname):
             self.sys_state.change_directory(pathname)
