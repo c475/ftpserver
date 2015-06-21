@@ -10,12 +10,22 @@ allports = []
 def make_request(sock, host, port):
     sock.connect((host, port))
 
+    # initialization message
     d = sock.recv(1024)
+
     sock.send("USER daniel")
+
+    # user OK
     d = sock.recv(1024)
+
     sock.send("PASS coolguy")
+
+    # password OK
     d = sock.recv(1024)
+
     sock.send("SYST")
+
+    # UNIX
     d = sock.recv(1024)
 
     for i in xrange(10000):
@@ -35,15 +45,23 @@ def make_request(sock, host, port):
 
         sock.send("PORT 127,0,0,1," + str(p1) + "," + str(p2))
 
+        # COMMAND_OK
+        d = sock.recv(1024)
+
+        sock.send("LIST")
+
+        # FILE_STATUS_OK
+        d = sock.recv(1024)
+
+
         data_channel.listen(5)
         newsock, addr = data_channel.accept()
         print("accepted connection from: " + str(addr))
 
-        d = sock.recv(1024)
-
-        sock.send("LIST")
-        d = sock.recv(1024)
+        # receive LIST results
         li = newsock.recv(2048)
+
+        # CLOSING CONNECTION
         d = sock.recv(1024)
 
         newsock.close()
