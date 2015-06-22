@@ -19,7 +19,7 @@ def make_request(f):
     f.close()
 
 
-for i in xrange(1000):
+for i in xrange(1):
     ftps.append(ftplib.FTP())
 
 for f in ftps:
