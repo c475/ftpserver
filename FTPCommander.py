@@ -87,12 +87,12 @@ class FTPCommander(object):
         Like ls command. Get a list of files in working directory.
         """
 
-        def transfer_callback(clientsock, datasock):
+        def transfer_callback(clientsock):
             clientsock.send(FILE_STATUS_OK)
 
-            datasock.connect(self.data_channel.address)
+            self.data_channel.socket.connect(self.data_channel.address)
 
-            datasock.sendall(subprocess.check_output([
+            self.data_channel.socket.sendall(subprocess.check_output([
                 "ls",
                 "-aChl",
                 self.sys_state.working_directory
@@ -100,7 +100,7 @@ class FTPCommander(object):
 
             clientsock.send(CLOSING_DATA_CONNECTION)
 
-            datasock.close()
+            self.data_channel.socket.close()
 
             self.data_channel.socket = None
             self.data_channel.address = None

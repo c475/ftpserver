@@ -47,9 +47,5 @@ class SendAndReceive(object):
             return False
 
     def pipe(self, callback):
-        t = threading.Thread(
-            target=callback,
-            args=(self.clientsocket, self.data_channel.socket)
-        )
-
+        t = threading.Thread(target=callback)
         t.start()
