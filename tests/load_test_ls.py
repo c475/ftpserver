@@ -50,8 +50,18 @@ def make_request(sock, host, port):
 
         sock.send("LIST")
 
+
         # FILE_STATUS_OK
         d = sock.recv(1024)
+
+        sock.setblocking(0)
+        # potential connection error
+        d = sock.recv(1024)
+        if d:
+            sock.close()
+            print("nope.")
+            return None
+        sock.setblocking(1)
 
 
         data_channel.listen(5)
