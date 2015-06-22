@@ -5,7 +5,7 @@ import threading
 
 def make_request(f):
     for i in xrange(1000):
-        r.retrlines("LIST")
+        f.retrlines("LIST")
     f.close()
 
 

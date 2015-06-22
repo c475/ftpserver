@@ -252,7 +252,7 @@ class FTPCommander(object):
         return SYSTEM_TYPE
 
     def TYPE(self, *params, **kwargs):
-        transfer_type = self.last_response[1]
+        transfer_type = params[0][0]
 
         if transfer_type in ("A", "I", "L 8", "A N"):
             self.server_state.transfer_type = transfer_type
