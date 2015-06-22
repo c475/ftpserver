@@ -7,7 +7,7 @@ port = int(sys.argv[1])
 
 
 def make_request(f):
-    f.setdebuglevel(2)
+    f.set_debuglevel(2)
     f.connect("127.0.0.1", port)
     welcome = f.getwelcome()
     f.login("Daniel", "Cool")
