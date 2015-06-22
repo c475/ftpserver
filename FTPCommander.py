@@ -90,7 +90,10 @@ class FTPCommander(object):
         def transfer_callback(clientsock):
             clientsock.send(FILE_STATUS_OK)
 
-            self.data_channel.socket.connect(self.data_channel.address)
+            try:
+                self.data_channel.socket.connect(self.data_channel.address)
+            except:
+                return CANNOT_OPEN_DATA_CONNECTION
 
             self.data_channel.socket.sendall(subprocess.check_output([
                 "ls",
