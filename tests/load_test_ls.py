@@ -4,6 +4,7 @@ import threading
 
 
 def make_request(f):
+    f.set_pasv(False)
     for i in xrange(1000):
         f.retrlines("LIST")
     f.close()
