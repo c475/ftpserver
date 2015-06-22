@@ -54,15 +54,16 @@ def make_request(sock, host, port):
         # FILE_STATUS_OK
         d = sock.recv(1024)
 
-        sock.setblocking(0)
-        # potential connection error
-        d = sock.recv(1024)
-        if d:
+        try:
+            sock.setblocking(0)
+            # potential connection error
+            d = sock.recv(1024)
             sock.close()
-            print("nope.")
             return None
-        sock.setblocking(1)
-
+        except:
+            pass
+        finally:
+            sock.setblocking(1)
 
         data_channel.listen(5)
         newsock, addr = data_channel.accept()
